@@ -1,0 +1,89 @@
+body * {
+    box-sizing: border-box;
+}
+
+/* input poup */
+
+#create {
+    position: absolute;
+    width: 100%;
+    display: none;
+}
+
+.input-wraper {
+    border: 1px solid #000;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    width: 50%;
+    margin: auto;
+    animation: schowUp 1s;
+}
+
+.input-wraper * {
+    border-style: none;
+    background-color: #fff;
+}
+
+.input-wraper>input {
+    flex-basis: 90%;
+    position: relative;
+    left: 10px;
+    outline-style: none;
+    height: 30px;
+}
+
+.input-wraper>input:focus-visible {
+    border-width: 0;
+}
+
+.input-wraper>.btn {
+    flex-basis: 10%;
+    border-radius: 10px;
+}
+
+.create-list {
+    width: 50%;
+    margin: -4px auto 0 auto;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.create-list li {
+    padding: 10px;
+    border: 1px solid #000;
+    border-top: 0;
+}
+
+/* todo list */
+
+section {
+    border: 1px dashed #000;
+    height: 50%;
+    margin: 10px;
+    padding: 10px;
+}
+
+section li {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid #000;
+}
+
+main {
+    padding: 40px;
+}
+
+@keyframes schowUp {
+    from {
+        transform: translateY(-100px);
+    }
+
+    to {
+        transform: translateX(0%);
+    }
+}

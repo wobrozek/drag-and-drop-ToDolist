@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>todo list</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js"> </script>
+    </head>
+    <body>
+        <div id="create">
+            <form action="" id="createForm">
+                <div class="input-wraper">
+                    <input id="createName" name="createName" type="text">
+                    <input type="submit" value="+">
+                    <button class="btn create-btn">x</button>
+                </div>
+            </form>
+            <ul class="create-list">
+            </ul>
+
+        </div>
+        <main>
+            <section>
+                <h2>TODO</h2>
+                <ul id="todo">
+                    <li draggable="true" class="draggable">kupić masło</li>
+                    <li draggable="true" class="draggable">kupić chleb</li>
+                </ul>
+            </section>
+            <section>
+                <h2>DONE</h2>
+                <ul>
+                    <li draggable="true" class="draggable">być super chłopakiem
+                    </li>
+                    <li draggable="true" class="draggable">mieć super dziewczynę</li>
+                </ul>
+            </section>
+            <button class="btn-add">+</button>
+        </main>
+    </body>
+</html>

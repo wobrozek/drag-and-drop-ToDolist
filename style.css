@@ -2,6 +2,10 @@ body * {
     box-sizing: border-box;
 }
 
+body {
+    margin: 0;
+}
+
 /* input poup */
 
 #create {
@@ -16,7 +20,7 @@ body * {
     position: relative;
     display: flex;
     width: 50%;
-    margin: auto;
+    margin: 10px auto;
     animation: schowUp 1s;
 }
 
@@ -25,8 +29,9 @@ body * {
     background-color: #fff;
 }
 
-.input-wraper>input {
-    flex-basis: 90%;
+#createName {
+    width: 10px;
+    flex-grow: 1;
     position: relative;
     left: 10px;
     outline-style: none;
@@ -37,9 +42,21 @@ body * {
     border-width: 0;
 }
 
-.input-wraper>.btn {
-    flex-basis: 10%;
+.btn {
+    flex-basis: 30px;
     border-radius: 10px;
+    font-weight: bold;
+}
+
+.btn[type=submit] {
+    font-size: 18px;
+}
+
+.btn-add {
+    font-size: 50px;
+    border-radius: 50%;
+    padding: 20px;
+    line-height: 30px;
 }
 
 .create-list {
@@ -75,7 +92,7 @@ section li {
 }
 
 main {
-    padding: 40px;
+    padding: 40px 40px 0 40px;
 }
 
 @keyframes schowUp {

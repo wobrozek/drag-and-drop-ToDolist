@@ -8,7 +8,9 @@ window.onload = () => {
 	const draggable = document.querySelectorAll('.draggable');
 	const section = document.querySelectorAll('section');
 
-	var dragItem = null;
+	let dragItem = null;
+	let touchedX = null;
+	let touchedY = null;
 
 	input.addEventListener('mousedown', (e) => {
 		// fetch element to the list
@@ -23,16 +25,18 @@ window.onload = () => {
 		e.preventDefault();
 		// send data
 		popup.style.display = 'none';
-		li = document.createElement('li');
-		li.textContent = input.value;
-		li.draggable = 'true';
-		li.className = 'draggable';
+		if (input.value) {
+			li = document.createElement('li');
+			li.textContent = input.value;
+			li.draggable = 'true';
+			li.className = 'draggable';
 
-		li.addEventListener('dragstart', dragStart);
-		li.addEventListener('dragend', dragEnd);
+			li.addEventListener('dragstart', dragStart);
+			li.addEventListener('dragend', dragEnd);
 
-		todo.append(li);
-		input.value = '';
+			todo.append(li);
+			input.value = '';
+		}
 	});
 
 	btn.addEventListener('click', () => {
@@ -42,7 +46,42 @@ window.onload = () => {
 	draggable.forEach((element) => {
 		element.addEventListener('dragstart', dragStart);
 		element.addEventListener('dragend', dragEnd);
+
+		element.addEventListener('touchstart', touchStart);
+		element.addEventListener('touchmove', touchMove);
+		element.addEventListener('touchEnd', touchEnd);
 	});
+
+	// mobile devices does't understand drop events
+	function touchStart(e) {
+		dragItem = this;
+
+		touchedX = e.changedTouches[0].pageX;
+		touchedY = e.changedTouches[0].pageY;
+
+		this.style.left = this.offsetLeft + 'px';
+		this.style.top = this.offsetTop + 'px';
+
+		// add element hight becouse in position fixed element must have static size
+
+		this.style.width = this.offsetWidth + 'px';
+		this.style.height = this.offsetHeight + 'px';
+
+		this.style.position = 'fixed';
+	}
+
+	function touchMove(e) {
+		console.log(e.changedTouches[0].pageX);
+		let difrenceX = e.changedTouches[0].pageX - touchedX;
+		let difrenceY = e.changedTouches[0].pageY - touchedY;
+		touchedX = e.changedTouches[0].pageX;
+		touchedY = e.changedTouches[0].pageY;
+
+		this.style.left = this.offsetLeft + difrenceX + 'px';
+		this.style.top = this.offsetTop + difrenceY + 'px';
+	}
+
+	function touchEnd() {}
 
 	function dragStart() {
 		dragItem = this;

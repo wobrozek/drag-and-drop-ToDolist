@@ -18,9 +18,9 @@ window.onload = () => {
 	let touchedX = null;
 	let touchedY = null;
 
-	hinitArray = GET('http://localhost/todolist/hint.php?q=hinit', hinitAppend);
-	doneArray = GET('http://localhost/todolist/hint.php?q=done', doneAppend);
-	todoArray = GET('http://localhost/todolist/hint.php?q=todo', todoAppend);
+	GET('http://localhost/todolist/hint.php?q=hinit', hinitAppend);
+	GET('http://localhost/todolist/hint.php?q=done', doneAppend);
+	GET('http://localhost/todolist/hint.php?q=todo', todoAppend);
 
 	input.addEventListener('click', (e) => {
 		hinitUX.style.display = 'block';
@@ -40,14 +40,18 @@ window.onload = () => {
 	}
 
 	function todoAppend(elements) {
+		todoArray = elements;
 		elements.forEach((element) => {
 			createDraggableLi(todo, element);
 		});
 	}
 
 	function doneAppend(elements) {
+		doneArray = elements;
 		elements.forEach((element) => {
-			createDraggableLi(done, element);
+			let li = document.createElement('li');
+			li.textContent = element;
+			done.append(li);
 		});
 	}
 
@@ -86,8 +90,12 @@ window.onload = () => {
 		if (!input.value) return;
 
 		//send data by conector.js
+		hinitArray.push(input.value);
+		console.log(todoArray);
+		todoArray.push(input.value);
+		POST('http://localhost/todolist/hint.php?q=hinit', hinitArray);
+		POST('http://localhost/todolist/hint.php?q=todo', todoArray);
 
-		//create todo li
 		createDraggableLi(todo, input.value);
 	});
 
@@ -168,7 +176,7 @@ window.onload = () => {
 	});
 
 	function drop() {
-		addToList.call(this);
+		if (dragItem) addToList.call(this);
 	}
 
 	function dragEnter(e) {

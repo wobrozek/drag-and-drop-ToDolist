@@ -1,6 +1,7 @@
 window.onload = () => {
 	const btn = document.querySelector('.btn-add');
 	const todo = document.querySelector('#todo');
+	const done = document.querySelector('#done');
 	const hinitUX = document.querySelector('.create-list');
 	const btnClose = document.querySelector('.create-btn');
 	const form = document.getElementById('createForm');
@@ -38,9 +39,33 @@ window.onload = () => {
 		hinitUX.style.display = 'block';
 	}
 
-	function doneAppend(elements) {}
+	function todoAppend(elements) {
+		elements.forEach((element) => {
+			createDraggableLi(todo, element);
+		});
+	}
 
-	function todoAppend(elements) {}
+	function doneAppend(elements) {
+		elements.forEach((element) => {
+			createDraggableLi(done, element);
+		});
+	}
+
+	function createDraggableLi(container, value) {
+		let li = document.createElement('li');
+		li.textContent = value;
+		li.draggable = 'true';
+		li.className = 'draggable';
+
+		li.addEventListener('dragstart', dragStart);
+		li.addEventListener('dragend', dragEnd);
+
+		li.addEventListener('touchstart', touchStart);
+		li.addEventListener('touchmove', touchMove);
+		li.addEventListener('touchend', touchEnd);
+
+		container.append(li);
+	}
 
 	function hinitClick() {
 		input.value = this.textContent;
@@ -63,33 +88,12 @@ window.onload = () => {
 		//send data by conector.js
 
 		//create todo li
-		let li = document.createElement('li');
-		li.textContent = input.value;
-		li.draggable = 'true';
-		li.className = 'draggable';
-
-		addEventsToLi.call(li);
-
-		todo.append(li);
-		input.value = '';
+		createDraggableLi(todo, input.value);
 	});
 
 	btn.addEventListener('click', () => {
 		popup.style.display = 'block';
 	});
-
-	draggable.forEach((element) => {
-		addEventsToLi.call(element);
-	});
-
-	function addEventsToLi() {
-		this.addEventListener('dragstart', dragStart);
-		this.addEventListener('dragend', dragEnd);
-
-		this.addEventListener('touchstart', touchStart);
-		this.addEventListener('touchmove', touchMove);
-		this.addEventListener('touchend', touchEnd);
-	}
 
 	// mobile devices does't understand drop events
 	function touchStart(e) {

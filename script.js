@@ -1,6 +1,7 @@
 window.onload = () => {
 	const btn = document.querySelector('.btn-add');
 	const todo = document.querySelector('#todo');
+	const hinitUX = document.querySelector('.create-list');
 	const btnClose = document.querySelector('.create-btn');
 	const form = document.getElementById('createForm');
 	const input = document.getElementById('createName');
@@ -8,34 +9,69 @@ window.onload = () => {
 	const draggable = document.querySelectorAll('.draggable');
 	const section = document.querySelectorAll('section');
 
+	let todoArray = [];
+	let doneArray = [];
+	let hinitArray = [];
+
 	let dragItem = null;
 	let touchedX = null;
 	let touchedY = null;
 
-	input.addEventListener('mousedown', (e) => {
-		// TODO fetch element to the reminders list
+	hinitArray = GET('http://localhost/todolist/hint.php?q=hinit', hinitAppend);
+	doneArray = GET('http://localhost/todolist/hint.php?q=done', doneAppend);
+	todoArray = GET('http://localhost/todolist/hint.php?q=todo', todoAppend);
+
+	input.addEventListener('click', (e) => {
+		hinitUX.style.display = 'block';
 	});
+
+	function hinitAppend(elements) {
+		hinitArray = elements;
+		elements.forEach((element) => {
+			let li = document.createElement('li');
+			li.textContent = element;
+
+			li.addEventListener('click', hinitClick);
+			hinitUX.appendChild(li);
+		});
+
+		hinitUX.style.display = 'block';
+	}
+
+	function doneAppend(elements) {}
+
+	function todoAppend(elements) {}
+
+	function hinitClick() {
+		input.value = this.textContent;
+		hinitUX.style.display = 'none';
+	}
 
 	btnClose.addEventListener('click', (e) => {
 		e.preventDefault();
 		popup.style.display = 'none';
+		hinitUX.style.display = 'none';
 	});
 
 	form.addEventListener('submit', (e) => {
 		e.preventDefault();
-		// send data
 		popup.style.display = 'none';
-		if (input.value) {
-			li = document.createElement('li');
-			li.textContent = input.value;
-			li.draggable = 'true';
-			li.className = 'draggable';
+		hinitUX.style.display = 'none';
 
-			addEventsToLi.call(li);
+		if (!input.value) return;
 
-			todo.append(li);
-			input.value = '';
-		}
+		//send data by conector.js
+
+		//create todo li
+		let li = document.createElement('li');
+		li.textContent = input.value;
+		li.draggable = 'true';
+		li.className = 'draggable';
+
+		addEventsToLi.call(li);
+
+		todo.append(li);
+		input.value = '';
 	});
 
 	btn.addEventListener('click', () => {

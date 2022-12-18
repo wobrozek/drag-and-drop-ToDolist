@@ -13,7 +13,7 @@ window.onload = () => {
 	let touchedY = null;
 
 	input.addEventListener('mousedown', (e) => {
-		// fetch element to the list
+		// TODO fetch element to the reminders list
 	});
 
 	btnClose.addEventListener('click', (e) => {
@@ -31,8 +31,7 @@ window.onload = () => {
 			li.draggable = 'true';
 			li.className = 'draggable';
 
-			li.addEventListener('dragstart', dragStart);
-			li.addEventListener('dragend', dragEnd);
+			addEventsToLi.call(li);
 
 			todo.append(li);
 			input.value = '';
@@ -44,13 +43,17 @@ window.onload = () => {
 	});
 
 	draggable.forEach((element) => {
-		element.addEventListener('dragstart', dragStart);
-		element.addEventListener('dragend', dragEnd);
-
-		element.addEventListener('touchstart', touchStart);
-		element.addEventListener('touchmove', touchMove);
-		element.addEventListener('touchEnd', touchEnd);
+		addEventsToLi.call(element);
 	});
+
+	function addEventsToLi() {
+		this.addEventListener('dragstart', dragStart);
+		this.addEventListener('dragend', dragEnd);
+
+		this.addEventListener('touchstart', touchStart);
+		this.addEventListener('touchmove', touchMove);
+		this.addEventListener('touchend', touchEnd);
+	}
 
 	// mobile devices does't understand drop events
 	function touchStart(e) {
@@ -71,7 +74,7 @@ window.onload = () => {
 	}
 
 	function touchMove(e) {
-		console.log(e.changedTouches[0].pageX);
+		e.preventDefault();
 		let difrenceX = e.changedTouches[0].pageX - touchedX;
 		let difrenceY = e.changedTouches[0].pageY - touchedY;
 		touchedX = e.changedTouches[0].pageX;
@@ -81,7 +84,31 @@ window.onload = () => {
 		this.style.top = this.offsetTop + difrenceY + 'px';
 	}
 
-	function touchEnd() {}
+	function touchEnd(e) {
+		touchX = e.changedTouches[0].pageX;
+		touchY = e.changedTouches[0].pageY;
+		dragItem.style.position = 'initial';
+		section.forEach((element) => {
+			let rect = element.getBoundingClientRect();
+
+			if (
+				rect.left < touchX &&
+				rect.left + rect.width > touchX &&
+				rect.top < touchedY &&
+				rect.top + rect.height > touchedY
+			) {
+				// add element to the list
+				addToList.call(element);
+			}
+		});
+	}
+
+	function addToList() {
+		let ul = this.querySelector('ul');
+		ul.append(dragItem);
+
+		// TODO send data after 3 seconds
+	}
 
 	function dragStart() {
 		dragItem = this;
@@ -101,8 +128,7 @@ window.onload = () => {
 	});
 
 	function drop() {
-		let ul = this.querySelector('ul');
-		ul.append(dragItem);
+		addToList.call(this);
 	}
 
 	function dragEnter(e) {

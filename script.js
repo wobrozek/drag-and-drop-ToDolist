@@ -104,7 +104,7 @@ window.onload = () => {
 	// mobile devices does't understand drop events
 	function touchStart(e) {
 		dragItem = this;
-		dragItem.dataset.done = false;
+		dragItem.dataset.done = 0;
 
 		touchedX = e.changedTouches[0].pageX;
 		touchedY = e.changedTouches[0].pageY;
@@ -158,7 +158,7 @@ window.onload = () => {
 		ul.append(dragItem);
 
 		if (ul.id == 'done') {
-			dragItem.dataset.done = true;
+			dragItem.dataset.done = 1;
 			setTimeout(() => {
 				removeDragable(id);
 			}, 3000);
@@ -168,7 +168,7 @@ window.onload = () => {
 	function removeDragable(dragId) {
 		let dragItem = document.querySelector(`li[data-id="${dragId}"]`);
 
-		if (!dragItem.done) return;
+		if (!Number(dragItem.dataset.done)) return;
 
 		let text = dragItem.textContent;
 
@@ -195,7 +195,7 @@ window.onload = () => {
 
 	function dragStart() {
 		dragItem = this;
-		dragItem.dataset.done = false;
+		dragItem.dataset.done = 0;
 		setTimeout(() => (this.style.display = 'none'), 0);
 	}
 

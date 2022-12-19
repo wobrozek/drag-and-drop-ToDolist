@@ -153,9 +153,47 @@ window.onload = () => {
 
 	function addToList() {
 		let ul = this.querySelector('ul');
+		dragItem.dataset.id = String(Date.now());
+		let id = dragItem.dataset.id;
+
 		ul.append(dragItem);
 
-		// TODO send data after 3 seconds
+		if (ul.id == 'done') {
+			dragItem.dataset.done = true;
+			setTimeout(() => {
+				removeDragable(id);
+			}, 3000);
+		} else {
+			dragItem.dataset.done = false;
+		}
+	}
+
+	function removeDragable(dragId) {
+		dragItem = document.querySelector(`li[data-id="${dragId}"]`);
+
+		if (!dragItem.dataset.done) return;
+
+		let text = dragItem.textContent;
+
+		todoArray = todoArray.filter((element) => {
+			if (element != text) {
+				return element;
+			}
+		});
+		doneArray.push(text);
+
+		POST('http://localhost/todolist/hint.php?q=todo', todoArray);
+		POST('http://localhost/todolist/hint.php?q=done', doneArray);
+
+		dragItem.classList.remove('draggable');
+		dragItem.setAttribute('draggable', false);
+
+		dragItem.removeEventListener('dragstart', dragStart);
+		dragItem.removeEventListener('dragend', dragEnd);
+
+		dragItem.removeEventListener('touchstart', touchStart);
+		dragItem.removeEventListener('touchmove', touchMove);
+		dragItem.removeEventListener('touchend', touchEnd);
 	}
 
 	function dragStart() {

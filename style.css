@@ -6,6 +6,10 @@ body {
     margin: 0;
 }
 
+.draggable {
+    background-color: #bdc3c7;
+}
+
 /* input poup */
 
 #create {
@@ -62,6 +66,7 @@ body {
 .create-list {
     width: 50%;
     margin: -16px auto 0 auto;
+    background-color: #bdc3c7;
 }
 
 ul {
@@ -94,6 +99,7 @@ section li {
 main {
     padding: 40px 40px 0 40px;
 }
+
 
 @keyframes schowUp {
     from {

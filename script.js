@@ -26,14 +26,33 @@ window.onload = () => {
 		hinitUX.style.display = 'block';
 	});
 
+	input.addEventListener('keyup', () => {
+		const regex = new RegExp(`^${input.value}.+`, 'gi');
+
+		let matchHinit = hinitArray.filter((element) => {
+			if (element.match(regex)) return element;
+		});
+		console.log(matchHinit);
+		loadHinit(matchHinit);
+	});
+
 	function hinitAppend(elements) {
 		hinitArray = elements;
-		elements.forEach((element) => {
+		loadHinit(hinitArray);
+	}
+
+	function loadHinit(data) {
+		let i = 1;
+		hinitUX.replaceChildren();
+		data.forEach((element) => {
 			let li = document.createElement('li');
 			li.textContent = element;
 
 			li.addEventListener('click', hinitClick);
 			hinitUX.appendChild(li);
+
+			if (i == 10) return;
+			i += 1;
 		});
 	}
 
@@ -88,7 +107,11 @@ window.onload = () => {
 		if (!input.value) return;
 
 		//send data by conector.js
-		hinitArray.push(input.value);
+		if (!hinitArray.includes(input.value)) {
+			hinitArray.push(input.value);
+			hinitArray.sort();
+		}
+
 		todoArray.push(input.value);
 		POST('http://localhost/todolist/hint.php?q=hinit', hinitArray);
 		POST('http://localhost/todolist/hint.php?q=todo', todoArray);

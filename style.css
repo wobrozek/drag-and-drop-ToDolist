@@ -19,6 +19,7 @@ body {
 }
 
 .input-wraper {
+    background-color: #fff;
     border: 1px solid #000;
     border-radius: 10px;
     position: relative;
@@ -42,7 +43,7 @@ body {
     height: 30px;
 }
 
-.input-wraper>input:focus-visible {
+ut-w .input-wraper>input:focus-visible {
     border-width: 0;
 }
 
@@ -67,6 +68,7 @@ body {
     width: 50%;
     margin: -16px auto 0 auto;
     background-color: #bdc3c7;
+    display: none;
 }
 
 ul {

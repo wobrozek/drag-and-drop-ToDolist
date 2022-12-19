@@ -35,8 +35,6 @@ window.onload = () => {
 			li.addEventListener('click', hinitClick);
 			hinitUX.appendChild(li);
 		});
-
-		hinitUX.style.display = 'block';
 	}
 
 	function todoAppend(elements) {
@@ -91,12 +89,12 @@ window.onload = () => {
 
 		//send data by conector.js
 		hinitArray.push(input.value);
-		console.log(todoArray);
 		todoArray.push(input.value);
 		POST('http://localhost/todolist/hint.php?q=hinit', hinitArray);
 		POST('http://localhost/todolist/hint.php?q=todo', todoArray);
 
 		createDraggableLi(todo, input.value);
+		input.value = '';
 	});
 
 	btn.addEventListener('click', () => {
@@ -106,6 +104,7 @@ window.onload = () => {
 	// mobile devices does't understand drop events
 	function touchStart(e) {
 		dragItem = this;
+		dragItem.dataset.done = false;
 
 		touchedX = e.changedTouches[0].pageX;
 		touchedY = e.changedTouches[0].pageY;
@@ -163,15 +162,13 @@ window.onload = () => {
 			setTimeout(() => {
 				removeDragable(id);
 			}, 3000);
-		} else {
-			dragItem.dataset.done = false;
 		}
 	}
 
 	function removeDragable(dragId) {
-		dragItem = document.querySelector(`li[data-id="${dragId}"]`);
+		let dragItem = document.querySelector(`li[data-id="${dragId}"]`);
 
-		if (!dragItem.dataset.done) return;
+		if (!dragItem.done) return;
 
 		let text = dragItem.textContent;
 
@@ -198,6 +195,7 @@ window.onload = () => {
 
 	function dragStart() {
 		dragItem = this;
+		dragItem.dataset.done = false;
 		setTimeout(() => (this.style.display = 'none'), 0);
 	}
 
